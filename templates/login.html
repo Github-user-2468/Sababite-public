@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SababaBites</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+
+
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-content {
+            text-align: center;
+            color: white;
+        }
+
+        .login-content h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            color: white;
+            font-weight: 700;
+        }
+
+        .login-content p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .login-box {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 35px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            max-width: 450px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .google-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: white;
+            border: 3px solid #4285f4;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(66, 133, 244, 0.3);
+            margin: 20px auto;
+            text-decoration: none;
+            color: #333;
+        }
+
+        .google-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 25px rgba(66, 133, 244, 0.5);
+            border-color: #357ae8;
+        }
+
+        .google-btn-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .google-icon {
+            width: 50px;
+            height: 50px;
+        }
+
+        .google-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .google-btn-text {
+            font-size: 16px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 30px 0;
+            color: #999;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .divider span {
+            padding: 0 15px;
+            font-size: 14px;
+        }
+
+        .manual-login-form {
+            text-align: left;
+        }
+
+        .flash-messages {
+            margin-bottom: 20px;
+        }
+
+        .flash-message {
+            padding: 12px 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+
+        .flash-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .flash-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .flash-error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .flash-warning {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .register-link {
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .register-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .back-home {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .back-home a {
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .back-home a:hover {
+            color: #5568d3;
+            text-decoration: underline;
+        }
+
+        .loading-spinner {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .loading-spinner.active {
+            display: flex;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4285f4;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .spinner-container {
+            text-align: center;
+        }
+
+        .spinner-text {
+            color: white;
+            margin-top: 20px;
+            font-size: 18px;
+        }
+
+        .forgot-password {
+    text-align: right;
+    margin-bottom: 1.5rem;
+}
+
+.forgot-password a {
+    color: #667eea;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.forgot-password a:hover {
+    color: #764ba2;
+}
+
+/* Adjust spacing for the login form */
+.manual-login-form {
+    position: relative;
+}
+    </style>
+</head>
+<body>
+    <nav class="topnav">
+        <div class="nav-container">
+            <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+            <div class="logo">
+                <h2>Python Pantry</h2>
+            </div>
+            <div class="search-bar">
+
+                <!-- <form id="search-form">
+                    <input type="text" id="ingredient-input" placeholder="Enter Ingredients (comma seperated)">
+                    <button type="submit">Search</button>
+                </form> -->
+
+<!--autocomplete-->
+            <form id="search-form" style="position: relative;">
+                <div class="autocomplete-wrapper" style="position: relative; width: 100%;">
+                    <input type="text" id="ingredient-input" placeholder="Enter Ingredients">
+                </div>
+                <button type="submit">Search</button>
+            </form>
+
+
+            </div>
+
+            <div class="nav-links">
+                 <a href="{{ url_for('index') }}#home-section" class="nav-link">Home</a>
+                <a href="{{ url_for('index') }}#favorites-section" class="nav-link">Favorites</a>
+                
+                <!-- UNIFIED LOGIN/PROFILE DISPLAY -->
+                {% if current_user.is_authenticated %}
+                <div class="user-profile">
+                    <a href="{{ url_for('logout') }}" class="btn logout-btn">Logout</a>
+                    
+                    {# Check if the user object has a picture_url (for OAuth users) #}
+                    {% if current_user.picture_url %}
+                        <img src="{{ current_user.picture_url }}" alt="Profile" class="user-avatar">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='images/chef.png') }}" alt="Profile" class="user-avatar">
+                    {% endif %}
+
+                    {# Check if the user object has a name (for OAuth users) #}
+                    {% if current_user.name %}
+                        <span class="user-name">{{ current_user.name.split(' ')[0] }}</span>
+                    {% else %}
+                        <span class="user-name">{{ current_user.email.split('@')[0] }}</span>
+                    {% endif %}
+                </div>
+                {% else %}
+                    <a href="{{ url_for('userlogin') }}" class="btn login-btn">Login</a>
+                {% endif %}
+            <div class="theme-toggle-container">
+                <input type="checkbox" class="checkbox" id="checkbox">
+                <label for="checkbox" class="checkbox-label">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun"></i>
+                    <span class="ball"></span>
+                </label>
+            </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="login-container">
+        <div class="login-content">
+            <h1>Welcome Back!</h1>
+            <p>Sign in to access your SababaBites</p>
+
+            <div class="login-box">
+                <!-- Google Login Button -->
+                <a href="{{ url_for('google_login') }}" class="google-btn" id="googleBtn">
+                    <div class="google-btn-content">
+                        <div class="google-icon">
+                            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                            </svg>
+                        </div>
+                        <span class="google-btn-text">Sign in with Google</span>
+                    </div>
+                </a>
+
+                <!-- Divider -->
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+
+                <!-- Manual Login Form -->
+                <form action="{{ url_for('userlogin') }}" method="POST" class="manual-login-form">
+                    <!-- Flash Messages -->
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            <div class="flash-messages">
+                                {% for category, message in messages %}
+                                    <div class="flash-message flash-{{ category }}">
+                                        <i class="fas fa-info-circle"></i> {{ message }}
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+
+                    <div class="form-group">
+                        <label for="email"><i class="fas fa-envelope"></i> Email</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+
+                     <div class="forgot-password">
+                        <a href="{{ url_for('reset_password') }}">
+                            <i class="fas fa-question-circle"></i> Forgot Password?
+                        </a>
+                    </div>
+
+                    <button type="submit" class="btn-submit">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                </form>
+
+                <!-- Register Link -->
+                <div class="register-link">
+                    Don't have an account? <a href="{{ url_for('register') }}">Register here</a>
+                </div>
+
+                <!-- Back to Home -->
+                <div class="back-home">
+                    <a href="{{ url_for('index') }}">
+                        <i class="fas fa-arrow-left"></i> Back to Home
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-spinner" id="loadingSpinner">
+        <div class="spinner-container">
+            <div class="spinner"></div>
+            <div class="spinner-text">Redirecting to Google...</div>
+        </div>
+    </div>
+
+    <script>
+        // Show loading spinner when Google button is clicked
+        document.getElementById('googleBtn').addEventListener('click', function() {
+            document.getElementById('loadingSpinner').classList.add('active');
+        });
+    </script>
+
+        <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SababaBites</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- favicon -->
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/Picture1.png') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=The+Girl+Next+Door&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://developer.edamam.com/attribution/badge.js"></script>
+</head>
+<body>
+    <nav class="topnav">
+        <div class="nav-container flex">
+            <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+            <div class="logo">
+                <h2>SababaBites</h2>
+            </div>
+            <div class="search-bar">
+            <!--autocomplete-->
+            <form id="search-form">
+                <div class="autocomplete-wrapper flex">
+                    <input type="text" id="ingredient-input" placeholder="Enter Ingredients">
+                    <span class="shortcut-hint">Press TAB + SPACE to search</span>
+                </div>
+                <button type="submit" tabindex="0">Search</button>
+                <!-- I'm Feeling Hungry Button -->
+                <button id="hungry-btn" class="feeling-hungry-btn" type="button">I'm Hangry</button>
+            </form>
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link" data-section="home">Home</a>
+                <a href="#" class="nav-link" data-section="favorites">Favorites</a>
+                
+                <!-- UNIFIED LOGIN/PROFILE DISPLAY -->
+                {% if current_user.is_authenticated %}
+                <div class="user-profile">
+                    <a href="{{ url_for('logout') }}" class="btn logout-btn">Logout</a>
+                    
+                    {# Check if the user object has a picture_url (for OAuth users) #}
+                    {% if current_user.picture_url %}
+                        <img src="{{ current_user.picture_url }}" alt="Profile" class="user-avatar oauth-avatar">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='images/chef.png') }}" alt="Profile" class="user-avatar default-avatar">
+                    {% endif %}
+
+                    {# Check if the user object has a name (for OAuth users) #}
+                    {% if current_user.name %}
+                        <span class="user-name">{{ current_user.name.split(' ')[0] }}</span>
+                    {% else %}
+                        <span class="user-name">{{ current_user.email.split('@')[0] }}</span>
+                    {% endif %}
+                </div>
+                {% else %}
+                    <a href="{{ url_for('userlogin') }}" class="btn login-btn">Login</a>
+                {% endif %}
+                
+            </div>
+            <div class="theme-toggle-container">
+                <input type="checkbox" class="checkbox" id="checkbox">
+                <label for="checkbox" class="checkbox-label">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun"></i>
+                    <span class="ball"></span>
+                </label>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar (hidden by default, toggled via the button in the nav) -->
+    <div class="side-menu" id="side-menu" aria-hidden="true">
+        <div class="side-menu-inner">
+            <h3>Recipe Filters</h3>
+                <p>Define your search results.</p>
+        </div>
+        <!--filters-->
+        <div class="search-filter">
+            <label class="filter-label">Diet Type: </label>
+            <div class="multi-dropdown" id="diet-dropdown">
+                <div class="multi-dropdown-btn filter-dropdown">Select Diets</div>
+                <!--diet options-->
+                <div class="multi-dropdown-menu" id="diet-filters">
+                    <label><input type="checkbox" value="balanced"> Balanced</label>
+                    <label><input type="checkbox" value="high-fiber"> High-Fiber</label>
+                    <label><input type="checkbox" value="high-protein"> High-Protein</label>
+                    <label><input type="checkbox" value="low-carb"> Low-Carb</label>
+                    <label><input type="checkbox" value="low-fat"> Low-Fat</label>
+                    <label><input type="checkbox" value="low-sodium"> Low-Sodium</label>
+                    <label><input type="checkbox" value="alcohol-free"> Alcohol-Free</label>
+                </div>
+            </div>
+        </div>
+        <div class="search-filter">
+        <label class="filter-label">Allergies & Restrictions: </label>
+        <!--allergy options-->
+        <div class="multi-dropdown" id="allergy-dropdown">
+            <div class="multi-dropdown-btn filter-dropdown">Select Allergies</div>
+            <div class="multi-dropdown-menu" id="allergy-filters">
+                <label><input type="checkbox" value="alcohol-free"> Alcohol-Free</label>
+                <label><input type="checkbox" value="celery-free"> Celery-Free</label>
+                <label><input type="checkbox" value="crustacean-free"> Crustacean-Free</label>
+                <label><input type="checkbox" value="dairy-free"> Dairy-Free</label>
+                <label><input type="checkbox" value="egg-free"> Egg-Free</label>
+                <label><input type="checkbox" value="fish-free"> Fish-Free</label>
+                <label><input type="checkbox" value="gluten-free"> Gluten-Free</label>
+                <label><input type="checkbox" value="keto-friendly"> Keto-Friendly</label>
+                <label><input type="checkbox" value="kidney-friendly"> Kidney-Friendly</label>
+                <label><input type="checkbox" value="kosher"> Kosher</label>
+                <label><input type="checkbox" value="low-potassium"> Low-Potassium</label>
+                <label><input type="checkbox" value="lupine-free"> Lupine-Free</label>
+                <label><input type="checkbox" value="mustard-free"> Mustard-Free</label>
+                <label><input type="checkbox" value="no-oil-added"> No Oil Added</label>
+                <label><input type="checkbox" value="low-sugar"> Low-Sugar</label>
+                <label><input type="checkbox" value="paleo"> Paleo</label>
+                <label><input type="checkbox" value="peanut-free"> Peanut-Free</label>
+                <label><input type="checkbox" value="pescatarian"> Pescatarian</label>
+                <label><input type="checkbox" value="pork-free"> Pork-Free</label>
+                <label><input type="checkbox" value="red-meat-free"> Red Meat-Free</label>
+                <label><input type="checkbox" value="sesame-free"> Sesame-Free</label>
+                <label><input type="checkbox" value="shellfish-free"> Shellfish-Free</label>
+                <label><input type="checkbox" value="soy-free"> Soy-Free</label>
+                <label><input type="checkbox" value="sugar-conscious"> Sugar-Conscious</label>
+                <label><input type="checkbox" value="tree-nut-free"> Tree Nut-Free</label>
+                <label><input type="checkbox" value="vegan"> Vegan</label>
+                <label><input type="checkbox" value="vegetarian"> Vegetarian</label>
+                <label><input type="checkbox" value="wheat-free"> Wheat-Free</label>
+            </div>
+        </div>
+    </div>
+        <div class="search-filter">
+            <label for="cuisine-filter" class="filter-label">Cuisine: </label>
+            <!--cuisine options-->
+            <div class="select-wrapper">
+                <select id="cuisine-filter" class="filter-dropdown">
+                    <option value="">All Cuisines</option>
+                    <option value="american">American</option>
+                    <option value="asian">Asian</option>
+                    <option value="british">British</option>
+                    <option value="caribbean">Caribbean</option>
+                    <option value="central europe">Central European</option>
+                    <option value="chinese">Chinese</option>
+                    <option value="eastern europe">Eastern European</option>
+                    <option value="french">French</option>
+                    <option value="greek">Greek</option>
+                    <option value="indian">Indian</option>
+                    <option value="italian">Italian</option>
+                    <option value="japanese">Japanese</option>
+                    <option value="korean">Korean</option>
+                    <option value="kosher">Kosher</option>
+                    <option value="mediterranean">Mediterranean</option>
+                    <option value="mexican">Mexican</option>
+                    <option value="middle eastern">Middle Eastern</option>
+                    <option value="nordic">Nordic</option>
+                    <option value="south american">South American</option>
+                    <option value="south east asian">South East Asian</option>
+                    <option value="world">World</option>
+                </select>
+            </div>
+        </div>
+            <!-- Clear Filters Button -->
+            <button id="clear-filters" class="clear-filters-btn">Clear Filters</button>
+                <div id="active-filters" class="active-filters" style="display: none;">
+                    <h4>Active Filters:</h4>
+                    <div id="filters-list"></div>
+                </div>
+            <!--ingredient chips-->
+            <div class="ingredients-section">
+                <h4>Ingredients Selected:</h4>
+                <div id="selected-ingredients-container" class="chip-container"></div>
+                <button id="clear-ingredients" class="clear-ingredients-btn">Clear Ingredients</button>
+            </div>
+            <!-- Search Recipes Button -->
+            <button id="apply-filters-btn" class="apply-filters-btn">Search</button>
+        </div>
+    
+    <div class="main-content">
+        <!-- Home Section -->
+        <div id="home-section" class="content-section active">
+            <h1 class="section-title">Discover Amazing Recipes</h1>
+            <p class="section-subtitle">Find delicious recipes based on ingredients you have. <br>Hover over cards to see details!</p>
+            
+            <div class="home-layout">
+                <!-- Recipe Suggestions Section -->
+                <div class="home-section">
+                    <div class="recipes-container">
+                        <h2><i class="fas fa-utensils"></i> Recipe Suggestions</h2>
+                        <div id="recipes-grid" class="recipes-grid">
+                            <!-- Recipe cards will be populated by JavaScript -->
+                        </div>
+                        <div class="load-more-container">
+                            <button id="load-more-btn" class="load-more-btn">Load More Recipes</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Favorites Section on Home Page -->
+                <div class="home-section">
+                    <div class="recipes-container">
+                        <h2><i class="fas fa-heart"></i> Your Favorites</h2>
+                        <div id="home-favorites-container" class="recipes-grid">
+                            <!-- Favorite recipe cards will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="daily-joke-section">
+                    <div class="joke-header">
+                        <h3>Daily Food Joke</h3>
+                    </div>
+                    <div id="joke-content" class="joke-content">
+                        <div class="joke-loading">
+                            <i class="fas fa-utensils fa-spin"></i>
+                            Cooking up a joke...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Favorites Section -->
+        <div id="favorites-section" class="content-section">
+            <h1 class="section-title">Your Favorite Recipes</h1>
+            <p class="section-subtitle">All your saved recipes in one place</p>
+            
+            <div class="recipes-container">
+                <h2><i class="fas fa-heart"></i> My Favorites</h2>
+                <div id="favorites-container" class="recipes-grid">
+                    <!-- Favorite recipe cards will be populated by JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--moved this to the bottom to resolve loading error-->
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+
+    <div class="easter-egg-button-container">
+        <button id="gabby-btn" class="gabby-btn" aria-pressed="false">Gabby Mode</button>
+            <button id="potato-btn" class="potato-btn" aria-pressed="false">
+            🥔 Potato Mode
+        </button>
+    </div>
+    
+</body>
+
+<!-- bottom bar -->
+<footer class="bottombar">
+    <div class="nav-container footer-container">
+        <div class="footer-text">
+            <img src="{{ url_for('static', filename='images/Picture1.png') }}" alt="Logo" class="footer-logo">
+            <span>Cooked Up by GHGK Solutions</span>
+            <img src="{{ url_for('static', filename='images/Picture1.png') }}" alt="Logo" class="footer-logo">
+        </div>
+        <div class="footer-credit">
+            <p>
+                Powered by
+                <a href="https://developer.edamam.com/" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ url_for('static', filename='images/edamam.png') }}" alt="Edamam" class="edamam-logo">
+                </a>
+            </p>
+        </div>
+    </div>
+</footer>
+
+</html>

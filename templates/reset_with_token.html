@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Set New Password - SababaBites/title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/picture1.png') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <nav class="topnav">
+        <div class="nav-container">
+            <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
+            <div class="logo">
+                <h2>SababaBites</h2>
+            </div>
+            <div class="search-bar">
+                <form id="search-form" style="position: relative;">
+                    <div class="autocomplete-wrapper" style="position: relative; width: 100%;">
+                        <input type="text" id="ingredient-input" placeholder="Enter Ingredients">
+                    </div>
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <div class="nav-links">
+                <a href="{{ url_for('index') }}#home-section" class="nav-link">Home</a>
+                <a href="{{ url_for('index') }}#favorites-section" class="nav-link">Favorites</a>
+                {% if current_user.is_authenticated %}
+                <div class="user-profile">
+                    <a href="{{ url_for('logout') }}" class="btn logout-btn">Logout</a>
+                    {% if current_user.picture_url %}
+                        <img src="{{ current_user.picture_url }}" alt="Profile" class="user-avatar">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='images/chef.png') }}" alt="Profile" class="user-avatar">
+                    {% endif %}
+                    {% if current_user.name %}
+                        <span class="user-name">{{ current_user.name.split(' ')[0] }}</span>
+                    {% else %}
+                        <span class="user-name">{{ current_user.email.split('@')[0] }}</span>
+                    {% endif %}
+                </div>
+                {% else %}
+                    <a href="{{ url_for('userlogin') }}" class="btn login-btn">Login</a>
+                {% endif %}
+            <div class="theme-toggle-container">
+                <input type="checkbox" class="checkbox" id="checkbox">
+                <label for="checkbox" class="checkbox-label">
+                    <i class="fas fa-moon"></i>
+                    <i class="fas fa-sun"></i>
+                    <span class="ball"></span>
+                </label>
+            </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <div class="reset-password-container">
+        <div class="reset-password-content">
+            <h1>Set New Password</h1>
+            <p>Enter your new password below.</p>
+
+            <div class="reset-password-box">
+                <!-- Flash Messages -->
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        <div class="flash-messages">
+                            {% for category, message in messages %}
+                                <div class="flash-message flash-{{ category }}">
+                                    <i class="fas fa-info-circle"></i> {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endwith %}
+
+                <form action="{{ url_for('reset_with_token', token=token) }}" method="POST" class="reset-password-form">
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> New Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your new password" required minlength="6">
+                        <small class="password-hint">
+                            Password must contain at least 6 characters.
+                        </small>
+                    </div>
+
+                    <button type="submit" class="reset-button">
+                        <i class="fas fa-key"></i> Reset Password
+                    </button>
+                </form>
+
+                <div class="reset-links">
+                    <a href="{{ url_for('userlogin') }}">
+                        <i class="fas fa-arrow-left"></i> Back to Login
+                    </a>
+                    <a href="{{ url_for('reset_password') }}">
+                        <i class="fas fa-redo"></i> Request Another Reset Link
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bottombar">
+        <div class="nav-container footer-container">
+            <div class="footer-text">
+                <img src="{{ url_for('static', filename='images/picture1.png') }}" alt="Logo" class="footer-logo">
+                <span>Cooked Up by GHGK Solutions</span>
+                <img src="{{ url_for('static', filename='images/picture1.png') }}" alt="Logo" class="footer-logo">
+            </div>
+            <div class="footer-credit">
+                <p>
+                    Recipe data provided by 
+                    <a href="https://developer.edamam.com/" target="_blank" rel="noopener noreferrer">
+                        <img src="{{ url_for('static', filename='images/edamam.png') }}" alt="Edamam" class="edamam-logo">
+                    </a>
+                </p>
+            </div>
+        </div>
+    </footer>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
