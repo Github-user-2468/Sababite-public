@@ -1,4 +1,4 @@
-# Python Pantry – Smart Recipe Finder
+# SababaBites – Smart Recipe Finder
 
 **TRY IT OUT! [Python Pantry](https://pythonpantry.pythonanywhere.com)**
 
