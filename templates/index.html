@@ -28,8 +28,8 @@
                     <span class="shortcut-hint">Press TAB + SPACE to search</span>
                 </div>
                 <button type="submit" tabindex="0">Search</button>
-                <!-- I'm Feeling Hungry Button -->
-                <button id="hungry-btn" class="feeling-hungry-btn" type="button">I'm Hangry</button>
+                <!-- I'm Feeling Hungry Button
+                <button id="hungry-btn" class="feeling-hungry-btn" type="button">I'm Hangry</button> -->
             </form>
             </div>
             <div class="nav-links">
@@ -39,7 +39,7 @@
                 <!-- UNIFIED LOGIN/PROFILE DISPLAY -->
                 {% if current_user.is_authenticated %}
                 <div class="user-profile">
-                    <a href="{{ url_for('logout') }}" class="btn logout-btn">Logout</a>
+                    <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
                     
                     {# Check if the user object has a picture_url (for OAuth users) #}
                     {% if current_user.picture_url %}
@@ -56,18 +56,24 @@
                     {% endif %}
                 </div>
                 {% else %}
-                    <a href="{{ url_for('userlogin') }}" class="btn login-btn">Login</a>
+                    <a href="{{ url_for('userlogin') }}" class="nav-link">Login</a>
                 {% endif %}
                 
             </div>
-            <div class="theme-toggle-container">
+
+
+            <!-- <div class="theme-toggle-container">
                 <input type="checkbox" class="checkbox" id="checkbox">
                 <label for="checkbox" class="checkbox-label">
                     <i class="fas fa-moon"></i>
                     <i class="fas fa-sun"></i>
                     <span class="ball"></span>
                 </label>
-            </div>
+            </div> -->
+
+
+
+
         </div>
     </nav>
 
@@ -238,12 +244,12 @@
 <!--moved this to the bottom to resolve loading error-->
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 
-    <div class="easter-egg-button-container">
+    <!-- <div class="easter-egg-button-container">
         <button id="gabby-btn" class="gabby-btn" aria-pressed="false">Gabby Mode</button>
             <button id="potato-btn" class="potato-btn" aria-pressed="false">
             🥔 Potato Mode
         </button>
-    </div>
+    </div> -->
     
 </body>
 

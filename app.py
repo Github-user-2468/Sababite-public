@@ -267,7 +267,7 @@ def userlogin():
             flash("Incorrect username or password. Please try again.", "danger")
             return redirect(url_for("userlogin"))
 
-    return render_template("login.html")
+    return render_template("login_page.html")
 
 def check_password(password):
     reg = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$#%()])[A-Za-z\d@$#%()]{6,20}$"
