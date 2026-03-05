@@ -321,7 +321,7 @@ def register():
         flash("User has been registered", "success")
         return redirect(url_for("index"))
 
-    return render_template("register.html")
+    return render_template("register_page.html")
 
 # Edamam API setup
 EDAMAM_APP_ID = os.getenv("EDAMAM_APP_ID")

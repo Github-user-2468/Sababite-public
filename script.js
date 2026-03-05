@@ -343,7 +343,7 @@ REDIRECT_SITES = [
                     </div>
 
                     <div class="flip-card-back">
-                        <h3 class="recipe-title">${recipe.title}</h3>
+                        <h3 class="recipe-title-back">${recipe.title}</h3>
                         ${recipe.cook_time
                             ? `<p class="cook-time"><i class="far fa-clock"></i> ${recipe.cook_time}</p>`
                             : ''}

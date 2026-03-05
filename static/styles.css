@@ -381,10 +381,10 @@ body.sidebar-open {
 }
 
 .recipes-container {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(172, 175, 179, 0.379);
     backdrop-filter: blur(10px);
     border-radius: 20px;
-    padding: 30px;
+    padding: 30px 50px;
     margin-bottom: 40px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     border: 1px solid rgba(255,255,255,0.2);
@@ -450,7 +450,7 @@ body.sidebar-open {
 }
 
 .flip-card-back {
-    background: linear-gradient(135deg, #cad5d6, #96b9bc);
+    background: linear-gradient(135deg, #9db2b4, #c1d3d4);
     color: white;
     transform: rotateY(180deg);
     display: flex;
@@ -491,6 +491,13 @@ body.sidebar-open {
     font-weight: 600;
 }
 
+.recipe-title-back {
+    font-size: 1.4rem;
+    margin-bottom: 10px;
+    color: #ffffff;
+    font-weight: 600;
+}
+
 .cook-time {
     color: #be2c00;
     margin-bottom: 15px;
@@ -527,6 +534,8 @@ body.sidebar-open {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
+
+
 
 .favorite-btn, .remove-favorite-btn {
     background-color: transparent;
@@ -622,8 +631,9 @@ body.sidebar-open {
 .no-results, .no-favorites {
     text-align: center;
     padding: 2rem;
-    color: #666;
+    color: #000000;
     font-style: italic;
+    background-color: rgba(255, 255, 255, 0.292);
 }
 
 /* Auth (login/register) styles appended */
@@ -1618,10 +1628,11 @@ color: white;
 }
 
 .load-more-btn {
-    background: white;
-    color: #00222e;
+    background: linear-gradient(to right, #063a4d, #08435c);
+    color: #ffffff;
     border: none;
-    padding: 12px 25px;
+    margin-top: 2%;
+    padding: 16px 30px;
     border-radius: 30px;
     cursor: pointer;
     font-size: 16px;
@@ -2550,3 +2561,170 @@ body.dark-mode .default-avatar {
         padding: 0.5rem 0.5rem 0.5rem 1.2rem;
     }
 }
+
+/*---------REGISTER STYLING ------------------------*/
+
+
+.register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px); 
+    padding: 2rem;
+    position: relative;
+    z-index: 10;
+}
+
+.register-content {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.register-left-panel,
+.register-right-panel {
+    display: none; 
+}
+
+.register-form-panel {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    width: 100%;
+    max-width: 480px;
+    padding: 2.5rem 3rem;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(0, 34, 46, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    text-align: center;
+    animation: fadeIn 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.register-form-panel h2 {
+    color: #00222e;
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    letter-spacing: -0.5px;
+}
+
+.register-form-panel p {
+    color: #5d7782;
+    margin-bottom: 2rem;
+    font-size: 1.05rem;
+}
+
+.register-form .form-group {
+    margin-bottom: 1.5rem;
+    text-align: left;
+    position: relative;
+}
+
+.register-form .form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #00222e;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.register-form .form-group label i {
+    color: #2c4b56;
+    margin-right: 8px;
+    width: 16px;
+    text-align: center;
+}
+
+.register-form .form-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #e0e6e9; 
+    border-radius: 12px;
+    font-size: 1rem;
+    background: #fcfdfe;
+    transition: all 0.2s ease;
+    color: #00222e;
+}
+
+.register-form .form-group input::placeholder {
+    color: #a0aeb5;
+}
+
+.register-form .form-group input:focus {
+    outline: none;
+    border-color: #00222e;
+    background: #ffffff;
+    box-shadow: 0 0 0 4px rgba(0, 34, 46, 0.08);
+}
+
+.password-requirements {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-top: 8px;
+    padding-left: 4px;
+    display: flex;
+    align-items: center;
+}
+
+.password-requirements:before {
+    content: "•";
+    margin-right: 6px;
+    font-size: 1.2rem;
+    line-height: 0.5;
+}
+
+.register-form .btn-submit {
+    width: 100%;
+    padding: 16px;
+    background: #00222e;
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 12px rgba(0, 34, 46, 0.2);
+    letter-spacing: 0.5px;
+}
+
+.register-form .btn-submit:hover {
+    background: #003344;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 34, 46, 0.25);
+}
+
+.register-form .btn-submit:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(0, 34, 46, 0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .register-container {
+        padding: 1rem;
+        align-items: flex-start;
+        padding-top: 10vh;
+    }
+    
+    .register-form-panel {
+        padding: 2rem 1.5rem;
+        border-radius: 20px;
+    }
+
+    .register-form-panel h2 {
+        font-size: 1.75rem;
+    }
+}
+
+/************************************************/
